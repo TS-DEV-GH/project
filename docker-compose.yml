@@ -1,0 +1,46 @@
+# Use root/example as user/password credentials
+version: '3.x'
+
+services:
+
+  service-main:
+    build: service-main
+    container_name: service-main
+    env_file:
+      - ./.env.global
+    ports:
+      - "3010:3010"
+    environment:
+      PORT: 3010
+    volumes:
+      - "./service-main/src:/home/node/app/src"
+      - "./protos:/home/node/app/protos"
+    depends_on:
+      - mongo
+
+  service-posts:
+    build: service-posts
+    container_name: service-posts
+    env_file:
+      - ./service-posts/.env
+      - ./.env.global
+    ports:
+      - "4000:4000"
+    environment:
+      PORT: 4000
+    volumes:
+      - "./service-posts/src:/home/node/app/src"
+      - "./protos:/home/node/app/protos"
+    depends_on:
+      - service-main
+    working_dir: /home/node/app
+
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    restart: on-failure
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root

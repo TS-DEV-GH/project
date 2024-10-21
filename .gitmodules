@@ -1,0 +1,9 @@
+[submodule "protos"]
+	path = protos
+	url = git@github.com:TS-DEV-GH/protos.git
+[submodule "service-main"]
+	path = service-main
+	url = git@github.com:TS-DEV-GH/service-main.git
+[submodule "service-posts"]
+	path = service-posts
+	url = git@github.com:TS-DEV-GH/service-posts.git
